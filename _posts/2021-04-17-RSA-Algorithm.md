@@ -3,7 +3,7 @@ layout: post
 title: RSA algorithm in C
 categories: [RSA Algorithm, Encryption, Computer Networks, C programming, OpenSSL]
 ---
-RSA algorithm is a widely used encryption tool. The algorithm was invented by Ron Rivest, Adi Shamir in 1977 which is still in production. RSA has been extensively used in various data-sensitive applications such as HTTPS protocol(SSL uses the RSA algorithm), e-Banking, and Bluetooth among many more core applications. 
+RSA algorithm is a widely used encryption tool. The algorithm was invented by Ron Rivest, Adi Shamir and Leonard Adleman in 1977 which is still in production. RSA has been extensively used in various data-sensitive applications such as HTTPS protocol(SSL uses the RSA algorithm), e-Banking, and Bluetooth among many more core applications. 
 
 ![](/images/rsa.svg)
 
