@@ -3,7 +3,7 @@ layout: post
 title: RSA algorithm in C
 categories: [RSA Algorithm, Encryption, Computer Networks, C programming, OpenSSL]
 ---
-RSA algorithm is a widely used encryption tool. The algorithm was invented by Ron Rivest, Adi Shamir in 1977 which is still in production. RSA has been extensively used in various data-sensitive applications such as HTTPS protocol(SSL uses the RSA algorithm), e-Banking, and Bluetooth among many more such core applications. 
+RSA algorithm is a widely used encryption tool. The algorithm was invented by Ron Rivest, Adi Shamir in 1977 which is still in production. RSA has been extensively used in various data-sensitive applications such as HTTPS protocol(SSL uses the RSA algorithm), e-Banking, and Bluetooth among many more core applications. 
 
 ![](/images/rsa.svg)
 
@@ -29,14 +29,14 @@ sudo apt-get install libssl-dev
 ```
 
 Importing the required libraries in C:
-```C
+```c
 #include <openssl/pem.h>
 #include <openssl/ssl.h>
 #include <openssl/rsa.h>
 ```
 
 Other standard C libraries which we'll be using:
-```C
+```c
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -45,7 +45,7 @@ Other standard C libraries which we'll be using:
 ### Ingesting the public/private
 
 We must ingest the public/private key and create an RSA object to proceed with the encryption/decryption step
-```C
+```c
 RSA * ingestPrivateKey(FILE *fp)
 {
     if(fp == NULL)
@@ -65,7 +65,7 @@ RSA * ingestPrivateKey(FILE *fp)
 ### Encryption/Decryption step
 
 After making the RSA object we can use this object to encrypt/decrypt according to our requirement.
-```C
+```c
 void decryption(RSA* rsa,unsigned char decrypted[10000], int padding, char *file_contents, int lSize)
 {
     int padding = RSA_PKCS1_PADDING;    
@@ -85,7 +85,7 @@ void decryption(RSA* rsa,unsigned char decrypted[10000], int padding, char *file
 ```
 
 ### Sample program for Encryption
-```C
+```c
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -153,7 +153,7 @@ int main(int argc, char* argv[])
 ```
 
 ### Sample program for decryption 
-```C
+```c
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -215,3 +215,29 @@ int main(int argc, char* argv[])
     return 0; 
 }
 ```
+
+### Makefile
+We need to pass in the command line arguements for input file, public key and private key. This has been handled in the Makefile for a specific example. You can modify to suit your needs 
+```makefile
+all: encrypt decrypt input.txt private.pem public.pem 
+	./encrypt input.txt public.pem encrypt.bin
+	./decrypt encrypt.bin private.pem decrypt.txt
+
+encrypt: encrypt.c 
+	gcc encrypt.c -o encrypt -lcrypto -lssl
+
+decrypt: decrypt.c 
+	gcc decrypt.c -o decrypt -lcrypto -lssl
+
+clean:
+	rm -rf encrypt decrypt decrypt.txt encrypt.bin
+```
+Running the files
+```bash
+make encrypt #for generating the encrypt binary file
+make decrypt #for generating the decrypt binary file
+make #for running the file with the above-mentioned testcase 
+```
+### Footnotes
+
+Thanks for making it to this point. You can check out the full repository [here](https://github.com/nrupeshsurya/RSA-encryption). Feel free to contact me for any suggestions/improvements.
