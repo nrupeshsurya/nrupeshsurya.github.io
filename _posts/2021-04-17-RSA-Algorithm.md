@@ -3,11 +3,11 @@ layout: post
 title: RSA algorithm in C
 categories: [RSA Algorithm, Encryption, Computer Networks, C programming, OpenSSL]
 ---
-RSA algorithm is a widely used encryption tool. The algorithm was invented by Ron Rivest, Adi Shamir and Leonard Adleman in 1977 which is still in production. RSA has been extensively used in various data-sensitive applications such as HTTPS protocol(SSL uses the RSA algorithm), e-Banking, and Bluetooth among many more core applications. 
+RSA algorithm is a widely used encryption tool. The algorithm was invented by Ron Rivest, Adi Shamir and Leonard Adleman in 1977 and is still in production. RSA is extensively used in various data-sensitive applications such as HTTPS protocol(SSL uses the RSA algorithm), e-Banking, and Bluetooth among many more core applications.
 
 ![](/images/rsa.svg)
 
-The RSA algorithm is an asymmetric algorithm which needs two keys for communication. Suppose A wants to send a message to B. For this, A must first have the public key of B which can be shared through a public channel on the internet without any problems. The reasoning behind it is, the message which is encrypted by the public key of B, can only be decrypted by using the private of B which is assumed to be under their private possession. To recap, A encrypts the message they want to send using the public key of B and sends it to B who decrypts it using their private key. 
+The RSA algorithm is an asymmetric algorithm which needs two keys for communication. Suppose A wants to send a message to B. For this, A must first have the public key of B which can be shared through a public channel on the internet without any problems. The reasoning behind it is, the message which is encrypted by the public key of B, can only be decrypted by using the private key of B which is assumed to be under their private possession. To summarise, A encrypts the message they want to send using the public key of B and sends it to B who decrypts it using their private key.
 
 ### Generating private and public keys
 
