@@ -1,0 +1,24 @@
+---
+import Base from '../layouts/Base.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { PROJECTS } from '../data/projects';
+---
+
+<Base title="Projects" description="Side projects and open-source work by Nrupesh Surya.">
+  <h1>Projects</h1>
+  <p class="muted">
+    Most of my day-to-day work at Amazon is internal, so these are side projects and university work I can show
+    publicly.
+  </p>
+  <div class="grid">
+    {PROJECTS.map((p) => <ProjectCard project={p} detailed headingLevel={2} />)}
+  </div>
+</Base>
+
+<style>
+  .grid {
+    display: grid;
+    gap: 1.25rem;
+    margin-top: 2rem;
+  }
+</style>

@@ -6,6 +6,8 @@
   --border: #e4e4e2;
   --accent: #fc5200; /* Strava orange */
   --accent-soft: #fff1ea;
+  --button-bg: #c2410c; /* darker orange so white text stays readable */
+  --button-text: #ffffff;
   --radius: 10px;
   --font: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
@@ -21,6 +23,8 @@
     --border: #2a2a2e;
     --accent: #ff7a3d;
     --accent-soft: #2a1a12;
+    --button-bg: #ff7a3d;
+    --button-text: #111113;
   }
   .astro-code,
   .astro-code span {

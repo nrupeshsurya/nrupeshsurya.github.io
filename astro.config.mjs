@@ -8,7 +8,6 @@ export default defineConfig({
   // Keep links to the old Jekyll post URLs working
   redirects: {
     '/RSA-Algorithm': '/blog/rsa-algorithm/',
-    '/hello-world': '/blog/hello-world/',
   },
   markdown: {
     shikiConfig: {

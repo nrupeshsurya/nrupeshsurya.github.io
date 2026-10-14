@@ -1,37 +1,55 @@
 ---
 import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import PostList from '../components/PostList.astro';
-import StravaWidgets from '../components/StravaWidgets.astro';
+import ProjectCard from '../components/ProjectCard.astro';
 import { SITE, LINKS } from '../data/site';
+import { PROJECTS } from '../data/projects';
+import me from '../assets/me.jpg';
 
 const posts = (await getCollection('blog', ({ data }) => !data.draft))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
   .slice(0, 5);
+const featured = PROJECTS.filter((p) => p.featured);
+const email = LINKS.find((l) => l.label === 'Email')!;
+const linkedin = LINKS.find((l) => l.label === 'LinkedIn')!;
 ---
 
 <Base>
   <section class="hero">
-    <img src="/me.jpg" alt="Nrupesh Surya" width="112" height="112" class="avatar" />
+    <Image src={me} alt="Nrupesh Surya" width={112} height={112} densities={[1, 2]} class="avatar" loading="eager" />
     <div>
       <h1>Hi, I'm Nrupesh 👋</h1>
+      <p class="tagline">I build fast, reliable checkout and payment systems at Amazon scale.</p>
       <p class="lede">
-        {SITE.role}, based in {SITE.location}. I build large-scale checkout and payment systems, care a lot about
-        latency, and enjoy building GenAI tools. Away from the keyboard, I'm usually out running.
+        {SITE.role}, based in {SITE.location}. I care a lot about latency and system design, and enjoy building GenAI
+        tools. Away from the keyboard, I'm usually out running.
       </p>
-      <p class="links">
-        {LINKS.map((l) => <a href={l.href}>{l.label}</a>)}
+      <p class="cta">
+        <a class="button primary" href={email.href}>Email me</a>
+        <a class="button" href={linkedin.href}>LinkedIn</a>
+        <a class="button" href="/about/">Experience</a>
       </p>
+      <p class="muted open">Happy to chat about payments, distributed systems and GenAI tooling.</p>
     </div>
   </section>
+
+  <h2>Selected projects</h2>
+  <div class="projects">
+    {featured.map((p) => <ProjectCard project={p} />)}
+  </div>
+  <p><a href="/projects/">All projects →</a></p>
 
   <h2>Writing</h2>
   <PostList posts={posts} />
   <p><a href="/blog/">All posts →</a></p>
 
   <h2>Running</h2>
-  <StravaWidgets summaryOnly />
-  <p><a href="/running/">More running →</a></p>
+  <p class="muted">
+    Most of my free time goes into running. See my latest runs on the <a href="/running/">running page</a> or on{' '}
+    <a href="https://www.strava.com/athletes/49014978">Strava</a>.
+  </p>
 </Base>
 
 <style>
@@ -46,27 +64,51 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft))
     border: 3px solid var(--surface);
     box-shadow: 0 0 0 1px var(--border);
   }
-  .lede {
-    font-size: 1.1rem;
-    color: var(--muted);
-    margin: 0 0 1rem;
+  .tagline {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem;
+    line-height: 1.4;
   }
-  .links {
+  .lede {
+    color: var(--muted);
+    margin: 0 0 1.1rem;
+  }
+  .cta {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem;
-    margin: 0;
+    gap: 0.6rem;
+    margin: 0 0 0.6rem;
   }
-  .links a {
-    font-size: 0.88rem;
+  .button {
+    font-size: 0.92rem;
+    font-weight: 600;
     text-decoration: none;
-    padding: 0.25rem 0.75rem;
+    padding: 0.45rem 1rem;
     border: 1px solid var(--border);
     border-radius: 999px;
     background: var(--surface);
   }
-  .links a:hover {
+  .button:hover {
     border-color: var(--accent);
+    color: var(--text);
+  }
+  .button.primary {
+    background: var(--button-bg);
+    border-color: var(--button-bg);
+    color: var(--button-text);
+  }
+  .button.primary:hover {
+    filter: brightness(1.08);
+    color: var(--button-text);
+  }
+  .open {
+    font-size: 0.9rem;
+    margin: 0;
+  }
+  .projects {
+    display: grid;
+    gap: 1rem;
   }
   @media (max-width: 560px) {
     .hero {
