@@ -1,0 +1,14 @@
+---
+import Base from '../layouts/Base.astro';
+import StravaWidgets from '../components/StravaWidgets.astro';
+import { STRAVA } from '../data/site';
+---
+
+<Base title="Running" description="Nrupesh Surya's running, from Strava.">
+  <h1>Running</h1>
+  <p class="muted">
+    Most of my free time goes into running. These widgets come straight from{' '}
+    <a href={`https://www.strava.com/athletes/${STRAVA.athleteId}`}>Strava</a> and update on their own.
+  </p>
+  <StravaWidgets />
+</Base>

@@ -1,0 +1,59 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const date = post.data.date.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+---
+
+<Base title={post.data.title} description={post.data.description}>
+  <article>
+    <header class="post-header">
+      <p class="eyebrow"><time datetime={post.data.date.toISOString()}>{date}</time></p>
+      <h1>{post.data.title}</h1>
+      {
+        post.data.tags.length > 0 && (
+          <p class="tags">
+            {post.data.tags.map((t) => (
+              <span>#{t}</span>
+            ))}
+          </p>
+        )
+      }
+    </header>
+    <div class="prose">
+      <Content />
+    </div>
+  </article>
+  <p class="back"><a href="/blog/">← All posts</a></p>
+</Base>
+
+<style>
+  .post-header {
+    margin-bottom: 2rem;
+  }
+  .post-header .eyebrow {
+    margin: 0 0 0.4rem;
+  }
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    color: var(--muted);
+    font-size: 0.88rem;
+    margin: 0;
+  }
+  .prose :global(img) {
+    display: block;
+    margin: 1.5rem auto;
+  }
+  .back {
+    margin-top: 3rem;
+  }
+</style>

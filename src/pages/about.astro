@@ -1,0 +1,149 @@
+---
+import Base from '../layouts/Base.astro';
+import { EXPERIENCE, SKILLS, EDUCATION } from '../data/experience';
+---
+
+<Base title="About" description="Experience, skills and education of Nrupesh Surya.">
+  <h1>About</h1>
+  <p class="muted">
+    I'm a Software Development Engineer II at Amazon, working in the Amazon Business organization in Madrid. Before
+    this I spent 3.5+ years at Amazon Payments in Bengaluru building high-scale checkout and payment systems used by
+    millions of customers. I care about system design, cutting latency, and GenAI tooling, including RAG-powered tools
+    and MCP integrations.
+  </p>
+
+  <h2>Experience</h2>
+  <ol class="timeline">
+    {
+      EXPERIENCE.map((job) => (
+        <li class="job">
+          <div class="job-head">
+            <h3>
+              {job.company}
+              {job.team && <span class="team"> · {job.team}</span>}
+            </h3>
+            <span class="muted small">{job.location}</span>
+          </div>
+          {job.roles.map((role) => (
+            <div class="role">
+              <div class="role-head">
+                <span class="role-title">{role.title}</span>
+                {role.period && <span class="muted small">{role.period}</span>}
+              </div>
+              {role.points && (
+                <ul>
+                  {role.points.map((p) => (
+                    <li>{p}</li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          ))}
+        </li>
+      ))
+    }
+  </ol>
+
+  <h2>Skills</h2>
+  <dl class="skills">
+    {
+      SKILLS.map((group) => (
+        <div>
+          <dt>{group.label}</dt>
+          <dd>
+            {group.items.map((s) => (
+              <span class="chip">{s}</span>
+            ))}
+          </dd>
+        </div>
+      ))
+    }
+  </dl>
+
+  <h2>Education</h2>
+  <div class="role-head">
+    <span><strong>{EDUCATION.school}</strong>, {EDUCATION.degree}</span>
+    <span class="muted small">{EDUCATION.period}</span>
+  </div>
+</Base>
+
+<style>
+  .timeline {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .job {
+    position: relative;
+    padding: 0 0 1.75rem 1.5rem;
+    border-left: 2px solid var(--border);
+  }
+  .job:last-child {
+    padding-bottom: 0;
+  }
+  .job::before {
+    content: '';
+    position: absolute;
+    left: -7px;
+    top: 0.45rem;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 2px solid var(--accent);
+  }
+  .job-head,
+  .role-head {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0 1rem;
+  }
+  .job h3 {
+    margin: 0;
+  }
+  .team {
+    font-weight: 500;
+    color: var(--muted);
+  }
+  .role {
+    margin-top: 0.75rem;
+  }
+  .role-title {
+    font-weight: 600;
+    font-style: italic;
+  }
+  .role ul {
+    margin: 0.35rem 0 0;
+    padding-left: 1.1rem;
+  }
+  .role li {
+    margin: 0.25rem 0;
+  }
+  .small {
+    font-size: 0.88rem;
+  }
+  .skills {
+    margin: 0;
+    display: grid;
+    gap: 1rem;
+  }
+  dt {
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+  }
+  dd {
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+  .chip {
+    font-size: 0.85rem;
+    padding: 0.2rem 0.65rem;
+    border-radius: 999px;
+    background: var(--accent-soft);
+    border: 1px solid var(--border);
+  }
+</style>

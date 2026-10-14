@@ -1,12 +1,16 @@
-_site
+# build output
+dist/
+.astro/
+
+# dependencies
+node_modules/
+
+# logs
+npm-debug.log*
+
+# environment
+.env
+.env.production
+
+# macOS
 .DS_Store
-.jekyll
-.jekyll-metadata
-.bundle
-.sass-cache
-Gemfile.lock
-node_modules
-package.json
-*.gem
-*.gemspec
-.jekyll-cache
