@@ -2,16 +2,25 @@
 import Base from '../layouts/Base.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import { PROJECTS } from '../data/projects';
+
+const work = PROJECTS.filter((p) => p.kind === 'work');
+const side = PROJECTS.filter((p) => p.kind === 'side');
 ---
 
-<Base title="Projects" description="Side projects and open-source work by Nrupesh Surya.">
+<Base title="Projects" description="Work at Amazon and side projects by Nrupesh Surya.">
   <h1>Projects</h1>
-  <p class="muted">
-    Most of my day-to-day work at Amazon is internal, so these are side projects and university work I can show
-    publicly.
-  </p>
+  <p class="muted">Things I've built, at work and on my own.</p>
+
+  <h2>At Amazon</h2>
+  <p class="muted">This work is internal, so there's no code to link. The numbers are the results we measured.</p>
   <div class="grid">
-    {PROJECTS.map((p) => <ProjectCard project={p} detailed headingLevel={2} />)}
+    {work.map((p) => <ProjectCard project={p} detailed headingLevel={3} />)}
+  </div>
+
+  <h2>Side projects</h2>
+  <p class="muted">University work and personal projects, with code on GitHub.</p>
+  <div class="grid">
+    {side.map((p) => <ProjectCard project={p} detailed headingLevel={3} />)}
   </div>
 </Base>
 
@@ -19,6 +28,6 @@ import { PROJECTS } from '../data/projects';
   .grid {
     display: grid;
     gap: 1.25rem;
-    margin-top: 2rem;
+    margin-top: 1.25rem;
   }
 </style>
