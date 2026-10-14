@@ -1,35 +1,45 @@
 ---
 import { STRAVA } from '../data/site';
 
-interface Props {
-  summaryOnly?: boolean;
-}
-
-const { summaryOnly = false } = Astro.props;
 const base = `https://www.strava.com/athletes/${STRAVA.athleteId}`;
+const widgets = [
+  { title: 'Strava activity summary', height: 160, src: `${base}/activity-summary/${STRAVA.widgetKey}` },
+  { title: 'Latest Strava runs', height: 454, src: `${base}/latest-rides/${STRAVA.widgetKey}` },
+];
 ---
 
-<div class="strava">
-  <iframe
-    title="Strava activity summary"
-    height="160"
-    width="300"
-    loading="lazy"
-    scrolling="no"
-    src={`${base}/activity-summary/${STRAVA.widgetKey}`}></iframe>
-  {
-    !summaryOnly && (
-      <iframe
-        title="Latest Strava activities"
-        height="454"
-        width="300"
-        loading="lazy"
-        scrolling="no"
-        src={`${base}/latest-rides/${STRAVA.widgetKey}`}
-      />
-    )
-  }
+<!--
+  Strava's widgets load ~1.4 MB, including Google Tag Manager and cookies,
+  so they only load after the visitor asks for them.
+-->
+<div class="strava" data-widgets={JSON.stringify(widgets)}>
+  <div class="placeholder">
+    <p>
+      My recent runs are shown with Strava's widget. Loading it fetches content from Strava, which may set cookies.
+    </p>
+    <button type="button">Load Strava activity</button>
+  </div>
 </div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('.strava').forEach((root) => {
+    const button = root.querySelector('button');
+    button?.addEventListener('click', () => {
+      const widgets: { title: string; height: number; src: string }[] = JSON.parse(root.dataset.widgets ?? '[]');
+      root.replaceChildren(
+        ...widgets.map((w) => {
+          const frame = document.createElement('iframe');
+          frame.title = w.title;
+          frame.height = String(w.height);
+          frame.width = '300';
+          frame.src = w.src;
+          frame.setAttribute('scrolling', 'no');
+          return frame;
+        }),
+      );
+    });
+  });
+</script>
 
 <style>
   .strava {
@@ -38,7 +48,31 @@ const base = `https://www.strava.com/athletes/${STRAVA.athleteId}`;
     gap: 1.25rem;
     align-items: flex-start;
   }
-  iframe {
+  .placeholder {
+    border: 1px dashed var(--border);
+    border-radius: var(--radius);
+    padding: 1.25rem 1.35rem;
+    max-width: 30rem;
+  }
+  .placeholder p {
+    margin: 0 0 1rem;
+    color: var(--muted);
+    font-size: 0.92rem;
+  }
+  button {
+    font: inherit;
+    font-weight: 600;
+    color: var(--button-text);
+    background: var(--button-bg);
+    border: 0;
+    border-radius: 999px;
+    padding: 0.5rem 1.1rem;
+    cursor: pointer;
+  }
+  button:hover {
+    filter: brightness(1.08);
+  }
+  .strava :global(iframe) {
     border: 1px solid var(--border);
     border-radius: var(--radius);
     background: #fff;

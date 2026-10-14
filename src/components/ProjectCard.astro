@@ -1,0 +1,114 @@
+---
+import type { Project } from '../data/projects';
+
+interface Props {
+  project: Project;
+  detailed?: boolean;
+  headingLevel?: 2 | 3;
+}
+
+const { project, detailed = false, headingLevel = 3 } = Astro.props;
+const Heading = `h${headingLevel}` as 'h2' | 'h3';
+const links = project.links ?? [];
+---
+
+<article class="card">
+  <header>
+    <Heading class="title">{project.name}</Heading>
+    <span class="meta">
+      {project.org && <span>{project.org} · </span>}
+      {project.year}
+    </span>
+  </header>
+  <p class="summary">{project.summary}</p>
+  {project.impact && <p class="impact">{project.impact}</p>}
+  {
+    detailed && (
+      <dl>
+        <dt>Problem</dt>
+        <dd>{project.problem}</dd>
+        <dt>What I did</dt>
+        <dd>{project.built}</dd>
+      </dl>
+    )
+  }
+  <ul class="stack" aria-label="Skills and tech">
+    {project.stack.map((s) => <li>{s}</li>)}
+  </ul>
+  {
+    links.length > 0 && (
+      <p class="links">
+        {links.map((l) => (
+          <a href={l.href}>{l.label} →</a>
+        ))}
+      </p>
+    )
+  }
+</article>
+
+<style>
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.25rem 1.35rem;
+  }
+  header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.25rem 1rem;
+  }
+  .title {
+    margin: 0;
+    font-size: 1.1rem;
+  }
+  .meta {
+    color: var(--muted);
+    font-size: 0.85rem;
+    font-variant-numeric: tabular-nums;
+  }
+  .summary {
+    margin: 0.4rem 0 0.6rem;
+    color: var(--muted);
+  }
+  .impact {
+    margin: 0 0 0.85rem;
+    padding-left: 0.75rem;
+    border-left: 3px solid var(--accent);
+    font-weight: 600;
+  }
+  dl {
+    margin: 0 0 0.9rem;
+  }
+  dt {
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+  dd {
+    margin: 0.1rem 0 0.6rem;
+  }
+  .stack {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+  .stack li {
+    font-size: 0.8rem;
+    padding: 0.1rem 0.55rem;
+    border-radius: 999px;
+    background: var(--accent-soft);
+    border: 1px solid var(--border);
+  }
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin: 0.75rem 0 0;
+    font-size: 0.92rem;
+  }
+</style>
