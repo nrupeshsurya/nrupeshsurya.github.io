@@ -1,0 +1,47 @@
+---
+import { STRAVA } from '../data/site';
+
+interface Props {
+  summaryOnly?: boolean;
+}
+
+const { summaryOnly = false } = Astro.props;
+const base = `https://www.strava.com/athletes/${STRAVA.athleteId}`;
+---
+
+<div class="strava">
+  <iframe
+    title="Strava activity summary"
+    height="160"
+    width="300"
+    loading="lazy"
+    scrolling="no"
+    src={`${base}/activity-summary/${STRAVA.widgetKey}`}></iframe>
+  {
+    !summaryOnly && (
+      <iframe
+        title="Latest Strava activities"
+        height="454"
+        width="300"
+        loading="lazy"
+        scrolling="no"
+        src={`${base}/latest-rides/${STRAVA.widgetKey}`}
+      />
+    )
+  }
+</div>
+
+<style>
+  .strava {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+    align-items: flex-start;
+  }
+  iframe {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: #fff;
+    max-width: 100%;
+  }
+</style>

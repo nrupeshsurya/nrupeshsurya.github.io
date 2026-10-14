@@ -1,0 +1,81 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import PostList from '../components/PostList.astro';
+import StravaWidgets from '../components/StravaWidgets.astro';
+import { SITE, LINKS } from '../data/site';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 5);
+---
+
+<Base>
+  <section class="hero">
+    <img src="/me.jpg" alt="Nrupesh Surya" width="112" height="112" class="avatar" />
+    <div>
+      <h1>Hi, I'm Nrupesh 👋</h1>
+      <p class="lede">
+        {SITE.role}, based in {SITE.location}. I build large-scale checkout and payment systems, care a lot about
+        latency, and enjoy building GenAI tools. Away from the keyboard, I'm usually out running.
+      </p>
+      <p class="links">
+        {LINKS.map((l) => <a href={l.href}>{l.label}</a>)}
+      </p>
+    </div>
+  </section>
+
+  <h2>Writing</h2>
+  <PostList posts={posts} />
+  <p><a href="/blog/">All posts →</a></p>
+
+  <h2>Running</h2>
+  <StravaWidgets summaryOnly />
+  <p><a href="/running/">More running →</a></p>
+</Base>
+
+<style>
+  .hero {
+    display: flex;
+    gap: 1.75rem;
+    align-items: flex-start;
+  }
+  .avatar {
+    border-radius: 50%;
+    flex-shrink: 0;
+    border: 3px solid var(--surface);
+    box-shadow: 0 0 0 1px var(--border);
+  }
+  .lede {
+    font-size: 1.1rem;
+    color: var(--muted);
+    margin: 0 0 1rem;
+  }
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 0;
+  }
+  .links a {
+    font-size: 0.88rem;
+    text-decoration: none;
+    padding: 0.25rem 0.75rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--surface);
+  }
+  .links a:hover {
+    border-color: var(--accent);
+  }
+  @media (max-width: 560px) {
+    .hero {
+      flex-direction: column;
+      gap: 1.25rem;
+    }
+    .avatar {
+      width: 88px;
+      height: 88px;
+    }
+  }
+</style>
